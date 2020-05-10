@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 引用db.properties配置文件 -->
+    <properties resource="db.properties"/>
+
+    <!-- 数据库驱动，因pom文件已配置，此配置注释掉-->
+    <!-- <classPathEntry location="D:\generator\mysql-connector-java-8.0.16.jar" /> -->
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库配置 -->
+        <jdbcConnection driverClass="${driver}" connectionURL="${url}"
+                        userId="${name}" password="${password}">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <!-- true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+                 false：默认,
+                       scale>0;length>18：使用BigDecimal
+                       scale=0;length[10,18]：使用Long
+                       scale=0;length[5,9]：使用Integer
+                       scale=0;length<5：使用Short -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 【entity】生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="${targetModelPackage}" targetProject="${targetJavaProject}">
+            <!-- targetPackage下级再生成以数据库schema为名称的目录，最终生成的类放在这个目录下，默认为false -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 设置是否在getter方法中，对String类型字段调用trim()方法 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 【xml】生成的映射文件包名和位置 -->
+        <sqlMapGenerator targetPackage="${targetResourcesPackage}" targetProject="${targetResourcesProject}">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- 【接口】生成DAO的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="${targetMapperPackage}"
+                             targetProject="${targetJavaProject}">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!--
+           tableName（必要）：要生成对象的表名；
+           可选：
+           - schema：数据库的schema
+           - catalog：数据库的catalog
+           - alias：为表设置别名，假如设置成alias="EMP"，那生成的SELECT中列名会变成：EMP_columnName
+           - domainObjectName：设置生成的domain类名，默认用表名；可以设置如：gn.EMP，这样生产的EMP会放到gn目录下
+           - enableInsert（默认true）：是否生成插入语句
+           - enableSelectByPrimaryKey（默认true）：是否生成按主键查询语句
+           - enableSelectByExample（默认true）：是否生成动态查询语句
+           - enableUpdateByPrimaryKey（默认true）：是否生成按照主键更新语句
+           - enableUpdateByExample（默认true）：是否生成动态更新语句（只修改对象中不为空的属性）
+           - enableDeleteByPrimaryKey（默认true）：是否生成按照主键删除语句
+           - enableDeleteByExample（默认true）：是否生成动态删除语句
+           - enableCountByExample（默认true）：是否生成动态查询总条数语句（用于分页的总条数查询）
+         -->
+        <table schema="test" tableName="EMP" domainObjectName="EMP"
+               enableSelectByPrimaryKey="true" enableSelectByExample="false" enableInsert="false"
+               enableUpdateByPrimaryKey="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false"
+               enableCountByExample="false" enableUpdateByExample="false"/>
+    </context>
+</generatorConfiguration>
